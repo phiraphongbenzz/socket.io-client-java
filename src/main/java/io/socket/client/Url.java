@@ -29,15 +29,6 @@ public class Url {
             protocol = "https";
         }
 
-        int port = uri.getPort();
-        if (port == -1) {
-            if ("http".equals(protocol) || "ws".equals(protocol)) {
-                port = 80;
-            } else if ("https".equals(protocol) || "wss".equals(protocol)) {
-                port = 443;
-            }
-        }
-
         String path = uri.getRawPath();
         if (path == null || path.length() == 0) {
             path = "/";
@@ -54,11 +45,10 @@ public class Url {
         URI completeUri = URI.create(protocol + "://"
                 + (userInfo != null ? userInfo + "@" : "")
                 + _host
-                + (port != -1 ? ":" + port : "")
                 + path
                 + (query != null ? "?" + query : "")
                 + (fragment != null ? "#" + fragment : ""));
-        String id = protocol + "://" + _host + ":" + port;
+        String id = protocol + "://" + _host;
 
         return new ParsedURI(completeUri, id);
     }
